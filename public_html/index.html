@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>MichalGo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="base.css">
+        <script src="Reactor.js"></script>
+        <script src="Game.js"></script>
+        <script src="View.js"></script>
+        <script src="base.js"></script>
+    </head>
+    <body onload='initGame()'>
+        <div id="gameDiv"></div>
+        <div id="controls">
+            <div class="params">
+                <div>Na tahu je <span id="curPlayer"></span>.</div>
+                <div>Černý ovládá <span id="blackScore"></span> polí.</div>
+                <div>Bílý ovládá <span id="whiteScore"></span> polí.</div>
+                <div><span id="neutralScore"></span> polí je neutrálních.</div>
+            </div>
+            <div class="params">
+                <div>Parametry:</div>
+                <div>basicInfluence <input type="text" id="infBasic"></div>
+                <div>directInfluence<input type="text" id="infDirect"></div>
+                <div>diagonalInfluence<input type="text" id="infDiagonal"></div>
+                <button onclick="changeParams()">Změna parametrů</button>
+            </div>
+        </div>
+    </body>
+</html>
