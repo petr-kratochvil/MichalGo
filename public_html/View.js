@@ -27,7 +27,7 @@ View.prototype.handleFieldChange = function(x, y, field) {
     this.board[x][y].changeState(field);
     document.getElementById("whiteScore").innerHTML = this.game.score[Game.Players.White];
     document.getElementById("blackScore").innerHTML = this.game.score[Game.Players.Black];
-    document.getElementById("neutralScore").innerHTML = this.game.score[Game.FieldState.Empty];
+    document.getElementById("neutralScore").innerHTML = this.game.score[Game.Players.Empty];
 };
 
 View.prototype.handlePlayerChange = function(player) {
@@ -44,7 +44,7 @@ VField = function(parent, x, y) {
     this.domElement.style.left = (x * 35 + 5) + 'px';
     this.domElement.style.top = (y * 35 + 5) + 'px';
     this.domElement.onclick = function() { this.dispatchEvent("clicked", this.x, this.y); }.bind(this);
-    //this.changeState(Game.FieldState.Empty);
+    //this.changeState(Game.Players.Empty);
     parent.appendChild(this.domElement);
 };
 
@@ -53,7 +53,7 @@ VField.prototype = Object.create(Reactor.prototype);
 VField.prototype.changeState = function(field) {
     var score = field.influence[Game.Players.Black]-field.influence[Game.Players.White];
     switch (field.state) {
-        case Game.FieldState.Empty:
+        case Game.Players.Empty:
             if (score > 0)
                 this.domElement.style.backgroundColor = '#ffd780';
             else if (score < 0)
@@ -62,7 +62,7 @@ VField.prototype.changeState = function(field) {
                 this.domElement.style.backgroundColor = 'blanchedalmond';
             break;
             this.domElement.style.color = 'rgba(0,0,0,0.5);'
-        case Game.FieldState.Black:
+        case Game.Players.Black:
             this.domElement.style.backgroundColor = '#808080';
             this.domElement.style.borderRadius = '8px';
             this.domElement.style.color = 'black';
@@ -74,7 +74,7 @@ VField.prototype.changeState = function(field) {
                 this.domElement.style.borderStyle = 'dashed'
             }
             break;
-        case Game.FieldState.White:
+        case Game.Players.White:
             this.domElement.style.backgroundColor = '#FFFFFF';
             this.domElement.style.borderRadius = '8px';
             this.domElement.style.color = 'black';
@@ -88,7 +88,7 @@ VField.prototype.changeState = function(field) {
             break;
     }
     this.state = field.state;
-    if (score !== 0 || this.state !== Game.FieldState.Empty)
+    if (score !== 0 || this.state !== Game.Players.Empty)
         this.domElement.innerHTML = Math.abs(score);
     else
         this.domElement.innerHTML = '';

@@ -24,28 +24,22 @@ Game = function (params) {
     for (var key in Game.Players) {
         this.score[key] = 0;
     }
-    this.score[Game.FieldState.Empty] = this.width * this.height;
+    this.score[Game.Players.Empty] = this.width * this.height;
 };
 
 Game.prototype = Object.create(Reactor.prototype);
 
 Game.Players = {
     Black: "Black",
-    White: "White"
+    White: "White",
+    Empty: "Empty"
 };
 
 Game.PlayerNames = {
     Black: "Černý",
-    White: "Bílý"
+    White: "Bílý",
+    Empty: "Neutrální"
 };
-
-Game.FieldState = {
-    Empty: "Empty"
-};
-
-for (var key in Game.Players) {
-    Game.FieldState[key] = Game.Players[key];
-}
 
 Game.params = {
     basicInfluence: 1,
@@ -62,7 +56,7 @@ Game.prototype.switchCurPlayer = function() {
 };
 
 Game.prototype.move = function (x, y) {
-    if (this.board[x][y].state !== Game.FieldState.Empty)
+    if (this.board[x][y].state !== Game.Players.Empty)
         return false;
     else {
         this.board[x][y].state = this.curPlayer;
@@ -83,13 +77,13 @@ Game.prototype.addInfluenceStone = function(x, y, player) {
             this.score[player] += 1;
             this.score[this.board[x][y].owner] -= 1;
             this.board[x][y].owner = player;
-        } else if (this.board[x][y].owner !== Game.FieldState.Empty
+        } else if (this.board[x][y].owner !== Game.Players.Empty
                 && this.board[x][y].owner !== player
                 && this.board[x][y].influence[player] === this.board[x][y].influence[this.board[x][y].owner])
         {
-            this.score[Game.FieldState.Empty] += 1;
+            this.score[Game.Players.Empty] += 1;
             this.score[this.board[x][y].owner] -= 1;
-            this.board[x][y].owner = Game.FieldState.Empty;
+            this.board[x][y].owner = Game.Players.Empty;
         }
         this.dispatchEvent("fieldChange", x, y, this.board[x][y]);
     }.bind(this);
@@ -109,26 +103,26 @@ Game.prototype.addInfluenceStone = function(x, y, player) {
 Game.prototype.recalculateInfluences = function() {
     for (var key in Game.Players)
         this.score[key] = 0;
-    this.score[Game.FieldState.Empty] = this.width * this.height;
+    this.score[Game.Players.Empty] = this.width * this.height;
     
     for (var i = 0; i < this.width; i++)
         for (var j = 0; j < this.height; j++) {
-            this.board[i][j].owner = Game.FieldState.Empty;
-            for (var key in Game.FieldState)
+            this.board[i][j].owner = Game.Players.Empty;
+            for (var key in Game.Players)
                 this.board[i][j].influence[key] = 0;
         }
 
     for (var i = 0; i < this.width; i++)
         for (var j = 0; j < this.height; j++)
-            if (this.board[i][j].state !== Game.FieldState.Empty)
+            if (this.board[i][j].state !== Game.Players.Empty)
                 this.addInfluenceStone(i, j, this.board[i][j].state);
 };
 
 GField = function () {
-    this.state = Game.FieldState.Empty;
-    this.owner = Game.FieldState.Empty;
+    this.state = Game.Players.Empty;
+    this.owner = Game.Players.Empty;
     this.influence = {};
-    for (var key in Game.FieldState) {
+    for (var key in Game.Players) {
         this.influence[key] = 0;
     }
 };

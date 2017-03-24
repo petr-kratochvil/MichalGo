@@ -6,7 +6,7 @@ initGame = function() {
     document.getElementById("infDiagonal").value = Game.params.diagonalInfluence;
     document.getElementById("whiteScore").innerHTML = this.game.score[Game.Players.White];
     document.getElementById("blackScore").innerHTML = this.game.score[Game.Players.Black];
-    document.getElementById("neutralScore").innerHTML = this.game.score[Game.FieldState.Empty];
+    document.getElementById("neutralScore").innerHTML = this.game.score[Game.Players.Empty];
 };
 
 changeParams = function() {
